@@ -22,9 +22,12 @@ sudo rpi-update
 sudo reboot
 
 Установка необходимых пакетов
-sudo apt-get install -y jq wget curl udisks2 apparmor-utils libglib2.0-bin network-manager dbus 
+sudo apt-get install -y jq wget curl udisks2 apparmor-utils libglib2.0-bin dbus 
 
-Настройка wi-fi
+Установка программы, управляющей сетью для нужд Home Assistant. Внимание! Большая вероятность разрыва связи и того, что IP адрес поменяется! Так что лучше запускать эту команду из родной консоли (с использованием HDMI монитора), а не через сеть.
+sudo apt-get install network-manager
+
+Настройка wi-fi в Raspi OS или Debian. В Ubuntu этого не требуется.
 Отключаем dhcpcd
 sudo nano /etc/dhcpcd.conf
 denyinterfaces wlan0
@@ -41,8 +44,8 @@ Edit connection - настройки IP
 
 Приложение для настройки - 
 sudo raspi-config
-5 Localisation Options / I1 Change Locale - ищем и выбираем пробелом ru_RU.UTF-8 UTF-8
-5 Localisation Options / I2 Change Timezone - выбираем часовой пояс
+5 Localisation Options / L1 Change Locale - ищем и выбираем пробелом ru_RU.UTF-8 UTF-8 и en_EN.UTF-8 UTF-8 (иногда важно, чтобы было не en_GB.UTF-8, а en_EN.UTF-8, поэтому лучше сразу заменить на более правильное)
+5 Localisation Options / L2 Change Timezone - выбираем часовой пояс
 
 Управление вентилятором
 Установка скрипта
@@ -94,9 +97,9 @@ wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent
 sudo dpkg -i os-agent_1.2.2_linux_aarch64.deb
 
 Установка Home Assisistant Supervised
-
+Скачиваем:
 wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
-
+Устанавливаем (Внимание! Скорее всего произойдёт разрыв связи из-за того, что программа установки даёт команду перезагрузиться network-manager. Поэтому установку лучше запускать из физической консоли которая по HDMI монитору, а не через сеть):
 sudo dpkg -i homeassistant-supervised.deb
 
 ставим Portainer - 
